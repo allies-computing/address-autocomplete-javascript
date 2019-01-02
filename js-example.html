@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>New API Autocomplete Example</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+    <!-- Stylesheet for autocomplete -->
+    <link rel="stylesheet" href="css/postcoder-autocomplete.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            padding: 15px 0;
+        }
+
+        /* Styling for address finder wrapper */
+        .address-finder {
+            padding: 20px 20px 5px 20px;
+            background: rgb(245,245,245);
+            border: 1px solid rgb(200,200,200);
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .address-finder h4 {
+            margin-top: 0;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Online megastore</a>
+                  </div>
+                  <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                      <li><a href="#">Home</a></li>
+                      <li><a href="#">Products</a></li>
+                      <li class="active"><a href="#">Checkout</a></li>
+                      <li><a href="#">Contact</a></li>
+                    </ul>
+                  </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+              </nav>
+            <div class="row">
+                <div class="col-md-9">
+                    <h3>Delivery address details</h3>
+                    <br>
+
+                    <form>
+                    <!--
+                        Example autocomplete address finder markup
+                        ==========================================
+
+                        We recommend positioning above the address fields and to highlight it in some way,
+                        so that users are aware they won't have to manually enter their address details.
+
+                        Input field:
+                        Note we switch off (via JS setAttribute) browser autocomplete, autocorrect, auto capitalisation and spellcheck.
+                        As they tend to get in the way when searching for addresses.
+                    -->
+                    <div class="address-finder" id="address_finder">
+                        <div class="form-group">
+                            <label for="postcoder_autocomplete" id="postcoder_autocomplete_label">Start typing your address or postcode</label>
+                            <input id="postcoder_autocomplete" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Fields we will populate when user selects address from list -->
+                    <div class="form-group">
+                        <label for="organisation_auto" id="organisation_label_auto">Organisation</label>
+                        <input type="text" id="organisation_auto" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="address_line_1_auto">Address line 1</label>
+                        <input type="text" id="address_line_1_auto" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="address_line_2_auto">Address line 2</label>
+                        <input type="text" id="address_line_2_auto" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="city_auto">Town/city</label>
+                        <input type="text" id="city_auto" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="county_auto">County</label>
+                        <input type="text" id="county_auto" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="postcode_auto">Postcode</label>
+                        <input type="text" id="postcode_auto" class="form-control" autocomplete="off">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <h3>Your basket</h3>
+                <p>Some amazing product <strong>£3</strong></p>
+                <p>Some amazing product <strong>£3</strong></p>
+                <p>Some amazing product <strong>£3</strong></p>
+                <h4>Total £9</h4>
+            </div>
+        </div>
+    </div>
+
+        <!-- Load the Autocomplete library -->
+        <script src="js/postcoder-autocomplete.js"></script>
+        <script>
+
+            // Choose the element we will use as the search box
+            var autocomplete_input = document.getElementById("postcoder_autocomplete");
+            var autocomplete_label = document.getElementById("postcoder_autocomplete_label");
+            var autocomplete_wrapper = document.getElementById("address_finder");
+
+            // Attach autocomplete to search box, with our settings
+            // To get your free trial API key visit https://www.alliescomputing.com/postcoder/sign-up
+            var postcoder_complete = new AlliesComplete(autocomplete_input, {
+                apiKey: "PCW45-12345-12345-1234X", // Change this to your own API key
+                autocompleteLabel: autocomplete_label,
+                autocompleteWrapper: autocomplete_wrapper
+            });
+
+            // This event is fired by library when user selects an item in the list
+            autocomplete_input.addEventListener("postcoder-complete-selectcomplete", function(e) {
+
+                auto_address_select(e.address);
+
+            });
+
+            // Demo function to populate form fields with address fields from chosen address
+            function auto_address_select(the_address) {
+
+                document.getElementById("organisation_auto").value = the_address.organisation || "";
+                document.getElementById("address_line_1_auto").value = the_address.addressline1;
+                document.getElementById("address_line_2_auto").value = the_address.addressline2 || "";
+                document.getElementById("city_auto").value = the_address.posttown;
+                document.getElementById("county_auto").value = the_address.county;
+                document.getElementById("postcode_auto").value = the_address.postcode;
+
+                autocomplete_input.value = "";
+                autocomplete_input.blur();
+
+                return true;
+
+            }
+    </script>
+  </body>
+</html>
