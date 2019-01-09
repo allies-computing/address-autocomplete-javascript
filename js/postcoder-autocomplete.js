@@ -71,6 +71,8 @@
 
         this.minChars = 3;
 
+        this.previousFilters = [];
+
         // Create necessary additional DOM elements for the address field
 
         this.container = $.create("div", {
@@ -155,6 +157,14 @@
                 "keydown": function (evt) {
                     var c = evt.keyCode;
 
+                    // remove filter if deleting text that was used to apply the filter
+                    if (me.currentPathFilter.getAttribute("data-filter") != "") {
+                      var term_at_filter = me.currentPathFilter.getAttribute("data-that-generated-filter").trim();
+                      if(term_at_filter.length > me.address_input.value.trim().length) {
+                        update_filter (me, "", true);
+                      }
+                    }
+
                     // If the dropdown `ul` is in view, then act on keydown for the following keys:
                     // Enter / Esc / Up / Down
                     if (me.opened) {
@@ -174,14 +184,6 @@
                 "keyup": function (evt) {
 
                     var c = evt.keyCode;
-
-                    // remove filter if deleting text that appear when filter was applied
-                    if (me.currentPathFilter.getAttribute("data-filter") != "") {
-                        var term_at_filter = me.currentPathFilter.getAttribute("data-that-generated-filter").trim();
-                        if(term_at_filter.length >= me.address_input.value.length) {
-                            update_filter (me, "", true);
-                        }
-                    }
 
                     // Arrows (37,38,39,40), Esc (27), Enter(13), Home(36), End(35)
                     if (c !== 37 && c !== 38 && c !== 39 && c !== 40 && c !== 27 && c !== 13 && c !== 36 && c !== 35) {
@@ -223,11 +225,20 @@
                 }
             },
             header: {
-              // Gets rid of filter if the header is clicked
+              // Goes back a filter if the header is clicked
                 "mousedown": function(evt) {
                     if (evt.button === 0) { // Only trigger on left click
                         evt.preventDefault();
-                        update_filter (me, "", true);
+                        // If there is someting in the search box when deleting the header, search again. If not, don't search again, because that will display a "no query provided" error.
+                        if (me.address_input.value) {
+                          update_filter (me, "", true);
+                        } else {
+                          update_filter (me, "", false);
+                        }
+                        // Hide the header if nothing to display in it
+                        if (me.currentPathFilter.hidden && me.error.hidden){
+                          update_header(me, "", false);
+                        }
                     }
                 }
             }
@@ -394,6 +405,11 @@
                                 });
 
                                 that.status.textContent = that.languageObject.address_selected;
+
+                                that.previousFilters = [];
+                                update_filter(that, "", false);
+                                update_header(that, "", false);
+
 
                             } else {
 
@@ -636,25 +652,48 @@
         if (label_text != "") {
             label_text = $.shortenLabel(label_text);
         }
+
+        // Make note of what was searched when we started filtering - used to know at what point to abandon the filter if the input text is deleted
+        if (instance.currentPathFilter.getAttribute("data-that-generated-filter") === "") {
+            instance.currentPathFilter.setAttribute("data-that-generated-filter", search_term);
+        }
+
         instance.currentPathFilter.textContent = label_text;
         instance.currentPathFilter.setAttribute("data-filter", filter);
         instance.currentPathFilter.setAttribute("data-search-term", search_term);
 
-        // Make note of what was searched when we started filtering - used to know at what point to abandon the filter if the input text is deleted
-        if (instance.currentPathFilter.getAttribute("data-that-generated-filter") === "") {
-          instance.currentPathFilter.setAttribute("data-that-generated-filter", search_term);
-        }
-
-        if(filter == "") {
-
+        if(filter === "" && instance.previousFilters.length <= 1) {
+            // If function hasn't been passed a new filter, and there isn't one to go back to
             instance.currentPathFilter.setAttribute("hidden", "");
             if(instance.address_input.value.substr(-1,1) == " ") {
                 instance.address_input.value = instance.address_input.value.trim();
             }
 
+            // Make sure the array is empty ready for future filtering
+            instance.previousFilters = [];
+
+        } else if (filter === "" && instance.previousFilters.length > 1) {
+            // If function hasn't been passed a new filter, and there is one to go back to
+
+            // Then get the last filter in the array out and use the next one to overwrite current filter
+            instance.previousFilters.pop();
+
+            instance.currentPathFilter.textContent = instance.previousFilters[instance.previousFilters.length-1].label_text;
+
+            instance.currentPathFilter.setAttribute("data-filter", instance.previousFilters[instance.previousFilters.length-1].filter);
+
+            instance.currentPathFilter.setAttribute("data-search-term", instance.previousFilters[instance.previousFilters.length-1].search_term);
+
         } else {
+            // If function has been passed a new filter
+
             instance.address_input.value = instance.address_input.value.trim();
+            // Show the information for the new filter
             instance.currentPathFilter.removeAttribute("hidden");
+
+            // Store that information in the previousFilters array for future use
+            instance.previousFilters.push({ filter: filter, label_text: label_text, search_term: search_term });
+
         }
 
         if (search_again === true) {
