@@ -51,7 +51,7 @@
 
         // Default options
         configure(this, {
-            apiKey: "PCW45-12345-12345-1234X",        // This is the test key (Locked to addresses in the NR14 7PZ postcode)
+            apiKey: "PCW45-12345-12345-1234X",        // For this example, you should leave this key as it is and replace the test key in `js-example.html`, as that will overwrite this default
             endpoint: "address",                      // Endpoint to get final address data from when user selects an address from list
             addresslines: 2,                          // Number of address lines to split elements over
             excludeFields: "organisation",            // Comma seperated list of fields to exclude from address lines output
