@@ -710,7 +710,7 @@
 
         var req_find_url = instance.autocomplete_url
         + "?apikey=" + instance.apiKey
-        + "&PrefixMatch=allTerms&Country=GB"
+        + "&Country=GB"
         + "&identifier=" + instance.identifier
         + "&query=" + encodeURIComponent(instance.address_input.value.trim());
 
