@@ -152,7 +152,7 @@
             function auto_address_select(the_address) {
 
                 document.getElementById("organisation_auto").value = the_address.organisation || "";
-                document.getElementById("address_line_1_auto").value = the_address.addressline1;
+                document.getElementById("address_line_1_auto").value = the_address.addressline1 || "";
                 document.getElementById("address_line_2_auto").value = the_address.addressline2 || "";
                 document.getElementById("city_auto").value = the_address.posttown;
                 document.getElementById("county_auto").value = the_address.county;

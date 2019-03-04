@@ -792,9 +792,13 @@
 
         };
 
-        if (req_active) { autocomplete_request.abort(); }
+        if (autocomplete_request.readyState == 1) {
+            autocomplete_request.send();
+        }
+        else {
+            autocomplete_request.abort();
+        }
 
-        autocomplete_request.send();
         req_active = true;
 
     }
