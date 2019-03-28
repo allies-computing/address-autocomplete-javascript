@@ -60,6 +60,7 @@
             iconHtml: default_icon_html,              // Icon object
             autocompleteLabel: false,                 // The label tag as DOM element
             autocompleteWrapper: false,               // The wrapper of the address finder as DOM element
+            country: "GB",                            // The country
             languageObject: language_gb_en,           // Language object
             identifier: "Autocomplete Address Finder" // To tag each search when viewing your usage on admin.postcoder.com
         }, o);
@@ -159,10 +160,10 @@
 
                     // remove filter if deleting text that was used to apply the filter
                     if (me.currentPathFilter.getAttribute("data-filter") != "") {
-                      var term_at_filter = me.currentPathFilter.getAttribute("data-that-generated-filter").trim();
-                      if(term_at_filter.length > me.address_input.value.trim().length) {
-                        update_filter (me, "", true);
-                      }
+                        var term_at_filter = me.currentPathFilter.getAttribute("data-that-generated-filter").trim();
+                        if(term_at_filter.length > me.address_input.value.trim().length) {
+                            update_filter (me, "", true);
+                        }
                     }
 
                     // If the dropdown `ul` is in view, then act on keydown for the following keys:
@@ -225,19 +226,19 @@
                 }
             },
             header: {
-              // Goes back a filter if the header is clicked
+                // Goes back a filter if the header is clicked
                 "mousedown": function(evt) {
                     if (evt.button === 0) { // Only trigger on left click
                         evt.preventDefault();
                         // If there is someting in the search box when deleting the header, search again. If not, don't search again, because that will display a "no query provided" error.
                         if (me.address_input.value) {
-                          update_filter (me, "", true);
+                            update_filter (me, "", true);
                         } else {
-                          update_filter (me, "", false);
+                            update_filter (me, "", false);
                         }
                         // Hide the header if nothing to display in it
                         if (me.currentPathFilter.hidden && me.error.hidden){
-                          update_header(me, "", false);
+                            update_header(me, "", false);
                         }
                     }
                 }
@@ -379,13 +380,13 @@
 
                         // Build the request to the retrieve endpoint to get the full address
                         var req_retrieve_url = this.retrieve_url
-                        + "?apikey=" + this.apiKey
-                        + "&Country=GB"
-                        + "&query=" + encodeURIComponent(this.address_input.value.trim())
-                        + "&id=" + encodeURIComponent(suggestion.value)
-                        + "&lines=" + this.addresslines
-                        + "&exclude=" + this.excludeFields
-                        + "&identifier=" + this.identifier;
+                                + "?apikey=" + this.apiKey
+                                + "&Country=" + this.country
+                                + "&query=" + encodeURIComponent(this.address_input.value.trim())
+                                + "&id=" + encodeURIComponent(suggestion.value)
+                                + "&lines=" + this.addresslines
+                                + "&exclude=" + this.excludeFields
+                                + "&identifier=" + this.identifier;
 
                         var request = new XMLHttpRequest();
 
@@ -401,7 +402,7 @@
                                 $.fire(that.address_input, "postcoder-complete-selectcomplete", {
                                     text: suggestion,
                                     address: data[0],
-                                    country: "GB"
+                                    country: that.country
                                 });
 
                                 that.status.textContent = that.languageObject.address_selected;
@@ -445,9 +446,9 @@
                 this.ul.innerHTML = "";
 
                 this.suggestions = this._list
-                    .map(function(item) {
-                        return new Suggestion(item);
-                    });
+                        .map(function(item) {
+                            return new Suggestion(item);
+                        });
 
                 this.suggestions = this.suggestions.slice(0, this.maxItems);
 
@@ -551,17 +552,17 @@
     function Suggestion(data) {
 
         var o = Array.isArray(data) ?
-            {
-                label: data[0],
-                value: data[1]
-            } :
-            typeof data === "object" && "label" in data && "value" in data && "location" in data && "type" in data && "count" in data ? data : {
-                label: data,
-                value: data,
-                location: data,
-                type: data,
-                count: data
-            };
+                {
+                    label: data[0],
+                    value: data[1]
+                } :
+                typeof data === "object" && "label" in data && "value" in data && "location" in data && "type" in data && "count" in data ? data : {
+                    label: data,
+                    value: data,
+                    location: data,
+                    type: data,
+                    count: data
+                };
 
         this.label = o.label || o.value;
         this.value = o.value;
@@ -581,7 +582,7 @@
     function configure(instance, properties, o) {
         for (var i in properties) {
             var initial = properties[i],
-                attrValue = instance.address_input.getAttribute("data-" + i.toLowerCase());
+                    attrValue = instance.address_input.getAttribute("data-" + i.toLowerCase());
 
             if (typeof initial === "number") {
                 instance[i] = parseInt(attrValue);
@@ -709,10 +710,10 @@
     function browseAddress (instance) {
 
         var req_find_url = instance.autocomplete_url
-        + "?apikey=" + instance.apiKey
-        + "&Country=GB"
-        + "&identifier=" + instance.identifier
-        + "&query=" + encodeURIComponent(instance.address_input.value.trim());
+                + "?apikey=" + instance.apiKey
+                + "&Country=" + instance.country
+                + "&identifier=" + instance.identifier
+                + "&query=" + encodeURIComponent(instance.address_input.value.trim());
 
         var path_filter = instance.currentPathFilter.getAttribute("data-filter");
 
