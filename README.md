@@ -2,11 +2,11 @@
 
 Simple demo to search for addresses via the Postcoder API on keypress.
 
-Full documentation available here: https://developers.alliescomputing.com/postcoder-web-api/address-lookup/address-autocomplete
+Full documentation available here: https://postcoder.com/docs/address-lookup#address-autocomplete
 
 ## Get started
 
-To get your free trial API key visit https://www.alliescomputing.com/postcoder/sign-up
+To get your free trial API key visit https://postcoder.com/sign-up
 
 To get the demo working, find "PCW45-12345-12345-1234X" in `js-example.html` and replace with your own key, including the quote marks.
 
