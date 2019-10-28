@@ -1,3 +1,32 @@
+/* Page styling */
+
+.col-md-9 h1, h2, h3, h4 {
+    font-family: Gilroy, helvetica, arial, sans-serif;
+    font-weight: bold;
+    color:  #112f51;
+}
+
+
+.col-md-3 h3, h4 {
+    font-family: gilroy, helvetica, arial, sans-serif;
+    font-weight: bold;
+}
+
+.col-md-3 p {
+    font-family: roboto, helvetica, arial, sans-serif;
+}
+
+.row {
+    background-color: #d3f9ee;
+}
+
+.navbar, .navbar-default {
+    font-family: roboto, helvetica, arial, sans-serif;
+}
+.navbar-brand {
+    font-family: Gilroy, helvetica, arial, sans-serif;
+}
+/* Autocomplete styling */
 .postcoder-complete [hidden] {
   display: none; }
 
@@ -19,14 +48,14 @@
   min-width: 100%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border-radius: .3em;
+  border-radius: 0;
   margin: .2em 0 0;
   background: rgba(255, 255, 255, 0.9);
   background: -webkit-gradient(linear, left top, right bottom, from(white), to(rgba(255, 255, 255, 0.8)));
   background: linear-gradient(to bottom right, white, rgba(255, 255, 255, 0.8));
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0.05em 0.2em 0.6em rgba(0, 0, 0, 0.2);
-          box-shadow: 0.05em 0.2em 0.6em rgba(0, 0, 0, 0.2);
+  border: 1px solid #25DFAC;
+  -webkit-box-shadow: 0.05em 0.2em 0.6em #d3f9ee;
+          box-shadow: 0.05em 0.2em 0.6em #d3f9ee;
   text-shadow: none; }
 
 .postcoder-complete > div.postcoder-complete-dropdown > ul {
@@ -57,7 +86,6 @@
   position: absolute; }
 
 /* Pointer */
-
 .postcoder-complete > div.postcoder-complete-dropdown:before {
   content: "";
   position: absolute;
@@ -84,7 +112,7 @@
   top: .7em; }
 
 .postcoder-complete mark {
-  background: #fcf8e3;
+  background: #d3f9ee;
   padding: 0; }
 
 .postcoder-complete ul > li .location, .postcoder-complete ul > li .count {
@@ -100,21 +128,55 @@
 .postcoder-complete ul > li:hover .count,
 .postcoder-complete ul > li[aria-selected="true"] .count {
   color: white;
-  background-color: #428bca; }
+  background-color: #fc7aa9; }
 
 .postcoder-complete header.filter {
   cursor: pointer; }
 
+/* Form styling */
 
-/*Styling for address finder wrapper */
+.address-finder {
+    padding: 20px 20px 20px 20px;
+    background: #92efd6;
+/*    border: 1px solid rgb(200,200,200);*/
+/*    border-radius: 5px;*/
+    margin-bottom: 30px;
+}
 
-       .address-finder {
-            padding: 20px 20px 5px 20px;
-            background: rgb(245,245,245);
-            border: 1px solid rgb(200,200,200);
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        .address-finder h4 {
-            margin-top: 0;
-        }
+.form-control {
+    display: block;
+    width: 100%;
+    height: 50px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #25DFAC;
+    border-radius: 0;
+    box-shadow: inset 0px 1px 2px rgba(0,0,0,.075);
+    
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition-property: border-color, box-shadow;
+    transition-duration: 0.15s, 0.15s;
+    transition-timing-function: ease-in-out, ease-in-out;
+    transition-delay: 0s, 0s;
+}
+
+.form-control:focus {
+    border:2px solid #25DFAC;
+    box-shadow: 0 0 5px #25DFAC;
+}
+
+.form-group {
+    font-family: gilroy, sans-serif;
+    color:  #112f51;
+    
+}
+
+
+
+
+
+

@@ -16,6 +16,7 @@ Then open the file and begin searching.
 
 ```
 <link rel="stylesheet" href="css/postcoder-autocomplete.css">
+    //Alternative style sheets commented out
 
 <div class="address-finder" id="address_finder">
     <div class="form-group">
